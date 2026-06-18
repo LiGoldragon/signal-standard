@@ -114,6 +114,49 @@ fn standard_socket_round_trips() {
 }
 
 #[test]
+fn interest_lattice_matches_reference_by_rung() {
+    let contract_from_spirit = AuthorizedObjectReference::new(
+        ComponentKind::Spirit,
+        ObjectDigest::new("digest-spirit-contract"),
+        AuthorizedObjectKind::Contract,
+    );
+    let time_from_mind = AuthorizedObjectReference::new(
+        ComponentKind::Mind,
+        ObjectDigest::new("digest-mind-time"),
+        AuthorizedObjectKind::Time,
+    );
+
+    // Rung 1 — AnyAuthorizedObject matches every reference.
+    let any = AuthorizedObjectInterest::AnyAuthorizedObject;
+    assert!(any.matches_reference(&contract_from_spirit));
+    assert!(any.matches_reference(&time_from_mind));
+
+    // Rung 2 — by Component: matches the owning component, any kind.
+    let by_spirit = AuthorizedObjectInterest::Component(ComponentKind::Spirit);
+    assert!(by_spirit.matches_reference(&contract_from_spirit));
+    assert!(!by_spirit.matches_reference(&time_from_mind));
+
+    // Rung 3 — by ObjectKind: matches the kind, any component.
+    let by_contract = AuthorizedObjectInterest::ObjectKind(AuthorizedObjectKind::Contract);
+    assert!(by_contract.matches_reference(&contract_from_spirit));
+    assert!(!by_contract.matches_reference(&time_from_mind));
+
+    // Rung 4 — by ComponentObject: the exact (component, kind) coordinate.
+    let by_spirit_contract = AuthorizedObjectInterest::ComponentObject(
+        ComponentObjectInterest::new(ComponentKind::Spirit, AuthorizedObjectKind::Contract),
+    );
+    assert!(by_spirit_contract.matches_reference(&contract_from_spirit));
+    assert!(!by_spirit_contract.matches_reference(&time_from_mind));
+    // Same component, wrong kind: no match.
+    let spirit_time = AuthorizedObjectReference::new(
+        ComponentKind::Spirit,
+        ObjectDigest::new("digest-spirit-time"),
+        AuthorizedObjectKind::Time,
+    );
+    assert!(!by_spirit_contract.matches_reference(&spirit_time));
+}
+
+#[test]
 fn component_classification_round_trips() {
     round_trip_nota(ComponentClassification::new(
         Differentiator::new(ComponentKind::Agent, AuthorizedObjectKind::Contract),

@@ -68,6 +68,25 @@ impl AuthorizedObjectReference {
     }
 }
 
+impl AuthorizedObjectInterest {
+    /// The four-rung lattice predicate: does this interest match the object
+    /// the reference names? Keyed on the reference's `(component, kind)`
+    /// coordinate. Lifted here (the type's own home) so every subscriber —
+    /// criome's local registry and the router's attendance fan-out alike —
+    /// shares one definition instead of drifting copies.
+    pub fn matches_reference(&self, reference: &AuthorizedObjectReference) -> bool {
+        match self {
+            Self::AnyAuthorizedObject => true,
+            Self::Component(component) => reference.component == *component,
+            Self::ObjectKind(kind) => reference.kind == *kind,
+            Self::ComponentObject(component_object) => {
+                reference.component == component_object.component
+                    && reference.kind == component_object.kind
+            }
+        }
+    }
+}
+
 impl ComponentClassification {
     pub fn new(differentiator: Differentiator, advertises: AuthorizedObjectInterest) -> Self {
         Self {
