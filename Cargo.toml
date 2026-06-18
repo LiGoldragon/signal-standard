@@ -1,0 +1,37 @@
+[package]
+name         = "signal-standard"
+version      = "0.1.0"
+edition      = "2024"
+rust-version = "1.88"
+license      = "MIT OR Apache-2.0"
+repository   = "https://github.com/LiGoldragon/signal-standard"
+description  = "Shared cross-component standards: the reconciled ComponentKind roster, the differentiator, and the authorized-object interest lattice."
+publish      = false
+links        = "signal-standard"
+build        = "build.rs"
+
+[lib]
+name = "signal_standard"
+path = "src/lib.rs"
+
+[[test]]
+name = "round_trip"
+path = "tests/round_trip.rs"
+required-features = ["nota-text"]
+
+[features]
+default = []
+nota-text = ["dep:nota-next"]
+
+[dependencies]
+nota-next = { git = "https://github.com/LiGoldragon/nota-next.git", branch = "main", optional = true }
+rkyv      = { version = "0.8", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
+thiserror = "2"
+
+[build-dependencies]
+schema-rust-next = { git = "https://github.com/LiGoldragon/schema-rust-next.git", branch = "main" }
+
+[lints.rust]
+unsafe_code = "forbid"
+unused      = { level = "warn", priority = -1 }
+dead_code   = "warn"
