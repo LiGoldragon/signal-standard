@@ -30,6 +30,11 @@ It owns:
 - **`ComponentClassification`** — the small embeddable nameplate a daemon
   stamps onto its frames so peers classify it without a lookup: the
   differentiator plus the interest it advertises.
+- **`StandardSocket`** — the shared typed connection point for local Unix
+  sockets and off-host network endpoints. Components use it when they need to
+  name ordinary daemon reachability without hard-coding path strings or port
+  fields in each contract. The first motivating consumer is Mentci connecting
+  to the local criome socket.
 
 Scope discipline (`eeeo`): only **genuine cross-component standards** live here,
 not a grab-bag of conveniences. It is not `signal-system` (one component's own

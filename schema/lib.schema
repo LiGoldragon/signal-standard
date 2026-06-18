@@ -102,6 +102,26 @@
 
   ObjectDigest String
 
+  ;; ===================================================================
+  ;; (e) Standard connection points. Components publish local and network
+  ;; reachability with typed values instead of hard-coded socket strings.
+  ;; The local Unix socket case is the current Mentci -> criome need; the
+  ;; network case is the off-host extension.
+  ;; ===================================================================
+  SocketPath String
+  HostName String
+  NetworkPort Integer
+
+  NetworkEndpoint {
+    host.HostName
+    port.NetworkPort
+  }
+
+  StandardSocket [
+    (UnixSocket SocketPath)
+    (NetworkSocket NetworkEndpoint)
+  ]
+
   AuthorizedObjectReference {
     component.ComponentKind
     digest.ObjectDigest

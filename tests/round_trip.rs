@@ -7,7 +7,8 @@
 use nota_next::{NotaDecode, NotaEncode, NotaSource};
 use signal_standard::{
     AuthorizedObjectInterest, AuthorizedObjectKind, AuthorizedObjectReference,
-    ComponentClassification, ComponentKind, ComponentObjectInterest, Differentiator, ObjectDigest,
+    ComponentClassification, ComponentKind, ComponentObjectInterest, Differentiator, HostName,
+    NetworkEndpoint, NetworkPort, ObjectDigest, SocketPath, StandardSocket,
 };
 
 fn round_trip_nota<T>(value: T)
@@ -95,6 +96,21 @@ fn authorized_object_reference_round_trips() {
         ObjectDigest::new("blake3-digest-fixture"),
         AuthorizedObjectKind::Operation,
     ));
+}
+
+#[test]
+fn standard_socket_round_trips() {
+    let socket_path = SocketPath::new("/run/user/1000/criome.socket");
+    assert_eq!(socket_path.as_str(), "/run/user/1000/criome.socket");
+    round_trip_nota(StandardSocket::UnixSocket(socket_path));
+
+    let endpoint = NetworkEndpoint::new(
+        HostName::new("prometheus.goldragon.criome"),
+        NetworkPort::new(7474),
+    );
+    assert_eq!(endpoint.host.as_str(), "prometheus.goldragon.criome");
+    assert_eq!(endpoint.port.clone().into_u16(), 7474);
+    round_trip_nota(StandardSocket::NetworkSocket(endpoint));
 }
 
 #[test]

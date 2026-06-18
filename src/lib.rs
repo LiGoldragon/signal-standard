@@ -22,6 +22,30 @@ impl ObjectDigest {
     }
 }
 
+impl SocketPath {
+    pub fn as_str(&self) -> &str {
+        self.payload().as_str()
+    }
+}
+
+impl HostName {
+    pub fn as_str(&self) -> &str {
+        self.payload().as_str()
+    }
+}
+
+impl NetworkPort {
+    pub fn into_u16(self) -> u16 {
+        self.into_payload() as u16
+    }
+}
+
+impl NetworkEndpoint {
+    pub fn new(host: HostName, port: NetworkPort) -> Self {
+        Self { host, port }
+    }
+}
+
 impl Differentiator {
     pub fn new(component: ComponentKind, kind: AuthorizedObjectKind) -> Self {
         Self { component, kind }

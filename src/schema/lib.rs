@@ -95,6 +95,37 @@ pub struct ObjectDigest(String);
 #[rustfmt::skip]
 #[cfg_attr(feature = "nota-text", derive(nota_next::NotaDecode, nota_next::NotaEncode))]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
+pub struct SocketPath(String);
+
+#[rustfmt::skip]
+#[cfg_attr(feature = "nota-text", derive(nota_next::NotaDecode, nota_next::NotaEncode))]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
+pub struct HostName(String);
+
+#[rustfmt::skip]
+#[cfg_attr(feature = "nota-text", derive(nota_next::NotaDecode, nota_next::NotaEncode))]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
+pub struct NetworkPort(Integer);
+
+#[rustfmt::skip]
+#[cfg_attr(feature = "nota-text", derive(nota_next::NotaDecode, nota_next::NotaEncode))]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
+pub struct NetworkEndpoint {
+    pub host: HostName,
+    pub port: NetworkPort,
+}
+
+#[rustfmt::skip]
+#[cfg_attr(feature = "nota-text", derive(nota_next::NotaDecode, nota_next::NotaEncode))]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
+pub enum StandardSocket {
+    UnixSocket(SocketPath),
+    NetworkSocket(NetworkEndpoint),
+}
+
+#[rustfmt::skip]
+#[cfg_attr(feature = "nota-text", derive(nota_next::NotaDecode, nota_next::NotaEncode))]
+#[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct AuthorizedObjectReference {
     pub component: ComponentKind,
     pub digest: ObjectDigest,
@@ -129,6 +160,63 @@ impl From<String> for ObjectDigest {
 }
 
 #[rustfmt::skip]
+impl SocketPath {
+    pub fn new(payload: impl Into<String>) -> Self {
+        Self(payload.into())
+    }
+    pub fn payload(&self) -> &String {
+        &self.0
+    }
+    pub fn into_payload(self) -> String {
+        self.0
+    }
+}
+#[rustfmt::skip]
+impl From<String> for SocketPath {
+    fn from(payload: String) -> Self {
+        Self::new(payload)
+    }
+}
+
+#[rustfmt::skip]
+impl HostName {
+    pub fn new(payload: impl Into<String>) -> Self {
+        Self(payload.into())
+    }
+    pub fn payload(&self) -> &String {
+        &self.0
+    }
+    pub fn into_payload(self) -> String {
+        self.0
+    }
+}
+#[rustfmt::skip]
+impl From<String> for HostName {
+    fn from(payload: String) -> Self {
+        Self::new(payload)
+    }
+}
+
+#[rustfmt::skip]
+impl NetworkPort {
+    pub fn new(payload: Integer) -> Self {
+        Self(payload)
+    }
+    pub fn payload(&self) -> &Integer {
+        &self.0
+    }
+    pub fn into_payload(self) -> Integer {
+        self.0
+    }
+}
+#[rustfmt::skip]
+impl From<Integer> for NetworkPort {
+    fn from(payload: Integer) -> Self {
+        Self::new(payload)
+    }
+}
+
+#[rustfmt::skip]
 impl AuthorizedObjectInterest {
     pub fn component(payload: ComponentKind) -> Self {
         Self::Component(payload)
@@ -138,6 +226,16 @@ impl AuthorizedObjectInterest {
     }
     pub fn component_object(payload: ComponentObjectInterest) -> Self {
         Self::ComponentObject(payload)
+    }
+}
+
+#[rustfmt::skip]
+impl StandardSocket {
+    pub fn unix_socket(payload: String) -> Self {
+        Self::UnixSocket(SocketPath::new(payload))
+    }
+    pub fn network_socket(payload: NetworkEndpoint) -> Self {
+        Self::NetworkSocket(payload)
     }
 }
 
@@ -159,5 +257,19 @@ impl From<AuthorizedObjectKind> for AuthorizedObjectInterest {
 impl From<ComponentObjectInterest> for AuthorizedObjectInterest {
     fn from(payload: ComponentObjectInterest) -> Self {
         Self::ComponentObject(payload)
+    }
+}
+
+#[rustfmt::skip]
+impl From<SocketPath> for StandardSocket {
+    fn from(payload: SocketPath) -> Self {
+        Self::UnixSocket(payload)
+    }
+}
+
+#[rustfmt::skip]
+impl From<NetworkEndpoint> for StandardSocket {
+    fn from(payload: NetworkEndpoint) -> Self {
+        Self::NetworkSocket(payload)
     }
 }
