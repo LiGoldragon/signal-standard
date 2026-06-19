@@ -107,28 +107,38 @@ fn authorized_object_reference_matches_interest_lattice() {
     );
 
     assert!(reference.matches_interest(&AuthorizedObjectInterest::AnyAuthorizedObject));
-    assert!(reference.matches_interest(&AuthorizedObjectInterest::Component(
-        ComponentKind::Criome,
-    )));
-    assert!(reference.matches_interest(&AuthorizedObjectInterest::ObjectKind(
-        AuthorizedObjectKind::Contract,
-    )));
-    assert!(reference.matches_interest(&AuthorizedObjectInterest::ComponentObject(
-        ComponentObjectInterest::new(ComponentKind::Criome, AuthorizedObjectKind::Contract),
-    )));
+    assert!(
+        reference.matches_interest(&AuthorizedObjectInterest::Component(ComponentKind::Criome,))
+    );
+    assert!(
+        reference.matches_interest(&AuthorizedObjectInterest::ObjectKind(
+            AuthorizedObjectKind::Contract,
+        ))
+    );
+    assert!(
+        reference.matches_interest(&AuthorizedObjectInterest::ComponentObject(
+            ComponentObjectInterest::new(ComponentKind::Criome, AuthorizedObjectKind::Contract),
+        ))
+    );
 
-    assert!(!reference.matches_interest(&AuthorizedObjectInterest::Component(
-        ComponentKind::Router,
-    )));
-    assert!(!reference.matches_interest(&AuthorizedObjectInterest::ObjectKind(
-        AuthorizedObjectKind::Time,
-    )));
-    assert!(!reference.matches_interest(&AuthorizedObjectInterest::ComponentObject(
-        ComponentObjectInterest::new(ComponentKind::Criome, AuthorizedObjectKind::Time),
-    )));
-    assert!(!reference.matches_interest(&AuthorizedObjectInterest::ComponentObject(
-        ComponentObjectInterest::new(ComponentKind::Router, AuthorizedObjectKind::Contract),
-    )));
+    assert!(
+        !reference.matches_interest(&AuthorizedObjectInterest::Component(ComponentKind::Router,))
+    );
+    assert!(
+        !reference.matches_interest(&AuthorizedObjectInterest::ObjectKind(
+            AuthorizedObjectKind::Time,
+        ))
+    );
+    assert!(
+        !reference.matches_interest(&AuthorizedObjectInterest::ComponentObject(
+            ComponentObjectInterest::new(ComponentKind::Criome, AuthorizedObjectKind::Time),
+        ))
+    );
+    assert!(
+        !reference.matches_interest(&AuthorizedObjectInterest::ComponentObject(
+            ComponentObjectInterest::new(ComponentKind::Router, AuthorizedObjectKind::Contract),
+        ))
+    );
 }
 
 #[test]
