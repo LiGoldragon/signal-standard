@@ -66,6 +66,17 @@ impl AuthorizedObjectReference {
             kind,
         }
     }
+
+    pub fn matches_interest(&self, interest: &AuthorizedObjectInterest) -> bool {
+        match interest {
+            AuthorizedObjectInterest::AnyAuthorizedObject => true,
+            AuthorizedObjectInterest::Component(component) => self.component == *component,
+            AuthorizedObjectInterest::ObjectKind(kind) => self.kind == *kind,
+            AuthorizedObjectInterest::ComponentObject(component_object) => {
+                self.component == component_object.component && self.kind == component_object.kind
+            }
+        }
+    }
 }
 
 impl ComponentClassification {

@@ -99,6 +99,39 @@ fn authorized_object_reference_round_trips() {
 }
 
 #[test]
+fn authorized_object_reference_matches_interest_lattice() {
+    let reference = AuthorizedObjectReference::new(
+        ComponentKind::Criome,
+        ObjectDigest::new("contract-digest-fixture"),
+        AuthorizedObjectKind::Contract,
+    );
+
+    assert!(reference.matches_interest(&AuthorizedObjectInterest::AnyAuthorizedObject));
+    assert!(reference.matches_interest(&AuthorizedObjectInterest::Component(
+        ComponentKind::Criome,
+    )));
+    assert!(reference.matches_interest(&AuthorizedObjectInterest::ObjectKind(
+        AuthorizedObjectKind::Contract,
+    )));
+    assert!(reference.matches_interest(&AuthorizedObjectInterest::ComponentObject(
+        ComponentObjectInterest::new(ComponentKind::Criome, AuthorizedObjectKind::Contract),
+    )));
+
+    assert!(!reference.matches_interest(&AuthorizedObjectInterest::Component(
+        ComponentKind::Router,
+    )));
+    assert!(!reference.matches_interest(&AuthorizedObjectInterest::ObjectKind(
+        AuthorizedObjectKind::Time,
+    )));
+    assert!(!reference.matches_interest(&AuthorizedObjectInterest::ComponentObject(
+        ComponentObjectInterest::new(ComponentKind::Criome, AuthorizedObjectKind::Time),
+    )));
+    assert!(!reference.matches_interest(&AuthorizedObjectInterest::ComponentObject(
+        ComponentObjectInterest::new(ComponentKind::Router, AuthorizedObjectKind::Contract),
+    )));
+}
+
+#[test]
 fn standard_socket_round_trips() {
     let socket_path = SocketPath::new("/run/user/1000/criome.socket");
     assert_eq!(socket_path.as_str(), "/run/user/1000/criome.socket");
