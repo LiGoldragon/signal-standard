@@ -56,6 +56,7 @@ fn every_authorized_object_kind_round_trips() {
         AuthorizedObjectKind::Contract,
         AuthorizedObjectKind::Agreement,
         AuthorizedObjectKind::Time,
+        AuthorizedObjectKind::Head,
     ] {
         round_trip_nota(kind);
     }
@@ -92,9 +93,9 @@ fn authorized_object_interest_lattice_round_trips() {
 #[test]
 fn authorized_object_reference_round_trips() {
     round_trip_nota(AuthorizedObjectReference::new(
-        ComponentKind::Lojix,
-        ObjectDigest::new("blake3-digest-fixture"),
-        AuthorizedObjectKind::Operation,
+        ComponentKind::Spirit,
+        ObjectDigest::new("spirit-head-digest-fixture"),
+        AuthorizedObjectKind::Head,
     ));
 }
 
@@ -137,6 +138,27 @@ fn authorized_object_reference_matches_interest_lattice() {
     assert!(
         !reference.matches_interest(&AuthorizedObjectInterest::ComponentObject(
             ComponentObjectInterest::new(ComponentKind::Router, AuthorizedObjectKind::Contract),
+        ))
+    );
+
+    let spirit_head = AuthorizedObjectReference::new(
+        ComponentKind::Spirit,
+        ObjectDigest::new("spirit-head-digest-fixture"),
+        AuthorizedObjectKind::Head,
+    );
+    assert!(
+        spirit_head.matches_interest(&AuthorizedObjectInterest::ObjectKind(
+            AuthorizedObjectKind::Head,
+        ))
+    );
+    assert!(
+        spirit_head.matches_interest(&AuthorizedObjectInterest::ComponentObject(
+            ComponentObjectInterest::new(ComponentKind::Spirit, AuthorizedObjectKind::Head),
+        ))
+    );
+    assert!(
+        !spirit_head.matches_interest(&AuthorizedObjectInterest::ComponentObject(
+            ComponentObjectInterest::new(ComponentKind::Spirit, AuthorizedObjectKind::Operation),
         ))
     );
 }

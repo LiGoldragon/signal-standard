@@ -59,6 +59,7 @@ pub enum AuthorizedObjectKind {
     Contract,
     Agreement,
     Time,
+    Head,
 }
 
 #[rustfmt::skip]

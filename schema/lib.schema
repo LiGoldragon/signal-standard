@@ -75,7 +75,7 @@
   ;; which ComponentKind it is and which AuthorizedObjectKind it acts over.
   ;; AuthorizedObjectKind is lifted verbatim from signal-criome.
   ;; ===================================================================
-  AuthorizedObjectKind [Operation Contract Agreement Time]
+  AuthorizedObjectKind [Operation Contract Agreement Time Head]
 
   Differentiator {
     component.ComponentKind
