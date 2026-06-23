@@ -1,8 +1,6 @@
 use std::path::PathBuf;
 
-use schema_rust_next::build::{
-    CargoSchemaMetadata, GenerationDriver, GenerationPlan, ModuleEmission,
-};
+use schema_rust::build::{CargoSchemaMetadata, GenerationDriver, GenerationPlan, ModuleEmission};
 
 /// The signal-standard build: lowers `schema/lib.schema` to `src/schema/lib.rs`
 /// through the DECLARATION-MODULE emission target — pure cross-component

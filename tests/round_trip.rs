@@ -4,7 +4,7 @@
 //! the codec witness for a pure-vocabulary contract. Exhaustive over the
 //! `ComponentKind` roster (all 14 zone members) and one fixture per other type.
 
-use nota_next::{NotaDecode, NotaEncode, NotaSource};
+use nota::{NotaDecode, NotaEncode, NotaSource};
 use signal_standard::{
     AuthorizedObjectInterest, AuthorizedObjectKind, AuthorizedObjectReference,
     ComponentClassification, ComponentKind, ComponentObjectInterest, Differentiator, HostName,
