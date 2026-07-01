@@ -1,6 +1,6 @@
 # Agent Instructions
 
-Read `/home/li/primary/AGENTS.md` first, then this repo's `INTENT.md`.
+Read `/home/li/primary/AGENTS.md` first, then this repo's `ARCHITECTURE.md`.
 
 This repository is a Signal standards library — the second shared `signal-`
 crate alongside `signal-frame`. Before editing, read:
