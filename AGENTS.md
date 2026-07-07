@@ -2,6 +2,8 @@
 
 Read `/home/li/primary/AGENTS.md` first, then this repo's `ARCHITECTURE.md`.
 
+Temporary WIP notice: this worktree contains parked, incomplete TrueSchema consumer migration work from an over-scope rollout attempt. Do not continue or consume this WIP until the schema daemon and renamed schema library dependency shape has stabilized. Remove this notice when the parked WIP is completed, discarded, or replaced.
+
 This repository is a Signal standards library — the second shared `signal-`
 crate alongside `signal-frame`. Before editing, read:
 
@@ -18,9 +20,9 @@ contract, and not frame mechanics.
 
 It is a pure vocabulary library. Do not add operation roots, daemon actors,
 sockets, redb tables, daemon clients, runtime policy, or a wire codec. The
-schema lowers through the **declaration-module** emission target (`build.rs`),
-not the wire-contract target. Regenerate the checked-in `src/schema/lib.rs`
-with `SIGNAL_STANDARD_UPDATE_SCHEMA_ARTIFACTS=1 cargo build`.
+TrueSchema source lowers through the **declaration-module** emission target
+(`build.rs`), not the wire-contract target. Regenerate the checked-in
+`src/schema/lib.rs` with `SIGNAL_STANDARD_UPDATE_SCHEMA_ARTIFACTS=1 cargo build`.
 
 `ComponentKind` is closed-but-partitioned: when a real new component appears,
 insert it into the right zone's reserved room — do not append blindly or

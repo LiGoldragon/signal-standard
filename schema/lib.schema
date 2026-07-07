@@ -78,8 +78,8 @@
   AuthorizedObjectKind [Operation Contract Agreement Time Head]
 
   Differentiator {
-    component.ComponentKind
-    kind.AuthorizedObjectKind
+    ComponentKind
+    AuthorizedObjectKind
   }
 
   ;; ===================================================================
@@ -89,8 +89,8 @@
   ;; interest lattice every subscriber narrows against.
   ;; ===================================================================
   ComponentObjectInterest {
-    component.ComponentKind
-    kind.AuthorizedObjectKind
+    ComponentKind
+    AuthorizedObjectKind
   }
 
   AuthorizedObjectInterest [
@@ -113,8 +113,8 @@
   NetworkPort Integer
 
   NetworkEndpoint {
-    host.HostName
-    port.NetworkPort
+    HostName
+    NetworkPort
   }
 
   StandardSocket [
@@ -123,9 +123,9 @@
   ]
 
   AuthorizedObjectReference {
-    component.ComponentKind
-    digest.ObjectDigest
-    kind.AuthorizedObjectKind
+    ComponentKind
+    ObjectDigest
+    AuthorizedObjectKind
   }
 
   ;; ===================================================================
@@ -136,6 +136,6 @@
   ;; ===================================================================
   ComponentClassification {
     Differentiator
-    advertises.AuthorizedObjectInterest
+    AuthorizedObjectInterest
   }
 }

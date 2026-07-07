@@ -19,9 +19,9 @@ cross-component classification:
   onto its frames so peers classify it without a lookup.
 
 It is a pure vocabulary library: no operation roots, no daemon, no storage, no
-wire codec. The types are emitted from `schema/lib.schema` through the schema
-declaration-module target. Component contracts import these types and reference
-them inside their own roots:
+wire codec. The types are emitted from the TrueSchema source `schema/lib.schema`
+through the declaration-module target. Component contracts import these types
+and reference them inside their own roots:
 
 ```text
 { ComponentKind signal-standard:lib:ComponentKind }

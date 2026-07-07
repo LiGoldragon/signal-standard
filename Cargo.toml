@@ -1,6 +1,6 @@
 [package]
 name         = "signal-standard"
-version      = "0.1.0"
+version      = "0.2.0"
 edition      = "2024"
 rust-version = "1.88"
 license      = "MIT OR Apache-2.0"
@@ -24,12 +24,13 @@ default = []
 nota-text = ["dep:nota"]
 
 [dependencies]
-nota = { package = "nota", git = "https://github.com/LiGoldragon/nota-next.git", branch = "main", optional = true }
+nota = { package = "nota", git = "https://github.com/LiGoldragon/nota.git", branch = "main", optional = true }
 rkyv      = { version = "0.8", default-features = false, features = ["std", "bytecheck", "little_endian", "pointer_width_32", "unaligned"] }
 thiserror = "2"
 
 [build-dependencies]
-schema-rust = { package = "schema-rust", git = "https://github.com/LiGoldragon/schema-rust-next.git", branch = "main" }
+schema = { git = "https://github.com/LiGoldragon/schema.git", branch = "trueschema" }
+schema-rust = { git = "https://github.com/LiGoldragon/schema-rust.git", branch = "trueschema" }
 
 [lints.rust]
 unsafe_code = "forbid"

@@ -47,12 +47,12 @@ vocabulary).
 ## Emission and build shape
 
 This crate is a **pure vocabulary library**: no operation roots, no daemon, no
-storage, no wire codec. It lowers through the schema **declaration-module**
-emission target (not the wire-contract target), so the generated module is types
-and their inherent/`From` support only — no `Input`/`Output` roots and no frame
-codec.
+storage, no wire codec. Its TrueSchema source lowers through the
+**declaration-module** emission target (not the wire-contract target), so the
+generated module is types and their inherent/`From` support only — no
+`Input`/`Output` roots and no frame codec.
 
-- `schema/lib.schema` is the schema source.
+- `schema/lib.schema` is the TrueSchema source.
 - `src/schema/lib.rs` is the checked-in generated declaration module; regenerate
   it with `SIGNAL_STANDARD_UPDATE_SCHEMA_ARTIFACTS=1 cargo build` (driven by
   `build.rs`).
@@ -77,8 +77,8 @@ each retiring its local copy:
 - Keep the scope to genuine cross-component standards (`eeeo`); do not accumulate
   conveniences.
 - Add no operation roots, daemon actors, sockets, redb tables, daemon clients,
-  runtime policy, or wire codec. The schema lowers through the declaration-module
-  target, never the wire-contract target.
+  runtime policy, or wire codec. The TrueSchema source lowers through the
+  declaration-module target, never the wire-contract target.
 
 ## Migration status
 
@@ -90,7 +90,7 @@ yet performed.
 
 ## Code map
 
-- `schema/lib.schema` — schema source of the vocabulary.
+- `schema/lib.schema` — TrueSchema source of the vocabulary.
 - `src/schema/lib.rs`, `src/schema/mod.rs` — checked-in generated declaration
   module.
 - `src/lib.rs` — crate root re-exporting the vocabulary and its inherent/`From`

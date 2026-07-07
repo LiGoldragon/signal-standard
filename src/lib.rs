@@ -42,38 +42,84 @@ impl NetworkPort {
 
 impl NetworkEndpoint {
     pub fn new(host: HostName, port: NetworkPort) -> Self {
-        Self { host, port }
+        Self {
+            host_name: host,
+            network_port: port,
+        }
+    }
+
+    pub fn host(&self) -> &HostName {
+        &self.host_name
+    }
+
+    pub fn port(&self) -> &NetworkPort {
+        &self.network_port
     }
 }
 
 impl Differentiator {
     pub fn new(component: ComponentKind, kind: AuthorizedObjectKind) -> Self {
-        Self { component, kind }
+        Self {
+            component_kind: component,
+            authorized_object_kind: kind,
+        }
+    }
+
+    pub fn component(&self) -> ComponentKind {
+        self.component_kind
+    }
+
+    pub fn kind(&self) -> AuthorizedObjectKind {
+        self.authorized_object_kind
     }
 }
 
 impl ComponentObjectInterest {
     pub fn new(component: ComponentKind, kind: AuthorizedObjectKind) -> Self {
-        Self { component, kind }
+        Self {
+            component_kind: component,
+            authorized_object_kind: kind,
+        }
+    }
+
+    pub fn component(&self) -> ComponentKind {
+        self.component_kind
+    }
+
+    pub fn kind(&self) -> AuthorizedObjectKind {
+        self.authorized_object_kind
     }
 }
 
 impl AuthorizedObjectReference {
     pub fn new(component: ComponentKind, digest: ObjectDigest, kind: AuthorizedObjectKind) -> Self {
         Self {
-            component,
-            digest,
-            kind,
+            component_kind: component,
+            object_digest: digest,
+            authorized_object_kind: kind,
         }
+    }
+
+    pub fn component(&self) -> ComponentKind {
+        self.component_kind
+    }
+
+    pub fn digest(&self) -> &ObjectDigest {
+        &self.object_digest
+    }
+
+    pub fn kind(&self) -> AuthorizedObjectKind {
+        self.authorized_object_kind
     }
 
     pub fn matches_interest(&self, interest: &AuthorizedObjectInterest) -> bool {
         match interest {
             AuthorizedObjectInterest::AnyAuthorizedObject => true,
-            AuthorizedObjectInterest::Component(component) => self.component == *component,
-            AuthorizedObjectInterest::ObjectKind(kind) => self.kind == *kind,
+            AuthorizedObjectInterest::Component(component) => self.component_kind == *component,
+            AuthorizedObjectInterest::ObjectKind(kind) => self.authorized_object_kind == *kind,
             AuthorizedObjectInterest::ComponentObject(component_object) => {
-                self.component == component_object.component && self.kind == component_object.kind
+                self.component_kind == component_object.component_kind
+                    && self.authorized_object_kind == component_object.authorized_object_kind
             }
         }
     }
@@ -83,8 +129,12 @@ impl ComponentClassification {
     pub fn new(differentiator: Differentiator, advertises: AuthorizedObjectInterest) -> Self {
         Self {
             differentiator,
-            advertises,
+            authorized_object_interest: advertises,
         }
+    }
+
+    pub fn advertises(&self) -> &AuthorizedObjectInterest {
+        &self.authorized_object_interest
     }
 
     /// The any-object interest: a component that classifies itself as
