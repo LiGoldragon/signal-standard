@@ -75,8 +75,8 @@ pub enum AuthorizedObjectKind {
 )]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct Differentiator {
-    pub component: ComponentKind,
-    pub kind: AuthorizedObjectKind,
+    pub component_kind: ComponentKind,
+    pub authorized_object_kind: AuthorizedObjectKind,
 }
 
 #[rustfmt::skip]
@@ -86,8 +86,8 @@ pub struct Differentiator {
 )]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct ComponentObjectInterest {
-    pub component: ComponentKind,
-    pub kind: AuthorizedObjectKind,
+    pub component_kind: ComponentKind,
+    pub authorized_object_kind: AuthorizedObjectKind,
 }
 
 #[rustfmt::skip]
@@ -142,8 +142,8 @@ pub struct NetworkPort(Integer);
 )]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct NetworkEndpoint {
-    pub host: HostName,
-    pub port: NetworkPort,
+    pub host_name: HostName,
+    pub network_port: NetworkPort,
 }
 
 #[rustfmt::skip]
@@ -164,9 +164,9 @@ pub enum StandardSocket {
 )]
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct AuthorizedObjectReference {
-    pub component: ComponentKind,
-    pub digest: ObjectDigest,
-    pub kind: AuthorizedObjectKind,
+    pub component_kind: ComponentKind,
+    pub object_digest: ObjectDigest,
+    pub authorized_object_kind: AuthorizedObjectKind,
 }
 
 #[rustfmt::skip]
@@ -177,7 +177,7 @@ pub struct AuthorizedObjectReference {
 #[derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Clone, Debug, PartialEq, Eq)]
 pub struct ComponentClassification {
     pub differentiator: Differentiator,
-    pub advertises: AuthorizedObjectInterest,
+    pub authorized_object_interest: AuthorizedObjectInterest,
 }
 
 #[rustfmt::skip]

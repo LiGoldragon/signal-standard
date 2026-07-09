@@ -173,8 +173,8 @@ fn standard_socket_round_trips() {
         HostName::new("prometheus.goldragon.criome"),
         NetworkPort::new(7474),
     );
-    assert_eq!(endpoint.host.as_str(), "prometheus.goldragon.criome");
-    assert_eq!(endpoint.port.clone().into_u16(), 7474);
+    assert_eq!(endpoint.host_name.as_str(), "prometheus.goldragon.criome");
+    assert_eq!(endpoint.network_port.clone().into_u16(), 7474);
     round_trip_nota(StandardSocket::NetworkSocket(endpoint));
 }
 
