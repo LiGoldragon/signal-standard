@@ -21,3 +21,5 @@ TrueSchema source lowers through the **declaration-module** emission target
 `ComponentKind` is closed-but-partitioned: when a real new component appears,
 insert it into the right zone's reserved room — do not append blindly or
 repartition the zones (a repartition is a major-version event, per `t312`).
+
+This repository is under fast development and constantly breaking.
